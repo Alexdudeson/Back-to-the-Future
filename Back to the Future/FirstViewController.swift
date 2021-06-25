@@ -16,7 +16,7 @@ class FirstViewController: UIViewController {
     @IBOutlet weak var label4: UILabel!
     @IBOutlet weak var timeLabel: UILabel!
     
-    
+    var timer = Timer()
     
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -29,8 +29,20 @@ class FirstViewController: UIViewController {
         label3.text = Utilities().GetLetterAtIndex(str: year, location: 2)
         label4.text = Utilities().GetLetterAtIndex(str: year, location: 3)
         
+        self.timer = Timer.scheduledTimer(timeInterval: 1.0, target: self, selector: #selector(FirstViewController.Tick), userInfo: nil, repeats: true)
+        
+        Tick()
+        
     }
 
-
+    @objc func Tick () {
+        timeLabel.text = Utilities().GetCurrentTime()
+        UIView.animate(withDuration: 1.0, delay: 0, options: .curveEaseOut, animations: {
+            self.view.alpha = 0.5 //decrease the see through of all view
+        }) { (true) in
+            self.view.alpha = 1.0
+        }
+    }
+    
 }
 
